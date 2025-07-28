@@ -1,0 +1,261 @@
+/* Simple CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00A084;
+    padding: 15px 20px;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.navbar h1 {
+    font-size: 24px;
+}
+
+.dashboard-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dashboard-link:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.payment-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.payment-form h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #00A084;
+}
+
+input:invalid {
+    border-color: #ff6b6b;
+}
+
+.error {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    font-weight: bold;
+}
+
+.pay-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #00A084;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pay-button:hover {
+    background-color: #008c73;
+}
+
+.pay-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.success {
+    text-align: center;
+    color: #28a745;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.error-message {
+    text-align: center;
+    color: #dc3545;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Dashboard specific styles */
+.dashboard-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.stats-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.stats-card h3 {
+    color: #00A084;
+    margin-bottom: 15px;
+}
+
+.stats-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.stats-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.payments-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payments-container h3 {
+    color: #00A084;
+    margin-bottom: 15px;
+}
+
+.payment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.payment-entry {
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.entry-details {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #00A084;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .navbar h1 {
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+    
+    .payment-container {
+        padding: 20px;
+    }
+    
+    .payment-form h2 {
+        font-size: 24px;
+    }
+}

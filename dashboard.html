@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Dashboard</title>
+    <style>
+        /* Simple CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #00A084;
+            padding: 15px 20px;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .stats-card h3 {
+            color: #00A084;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-value {
+            color: #00A084;
+            font-weight: bold;
+        }
+
+        .payments-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .payments-container h3 {
+            color: #00A084;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .payment-entry {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .payment-amount {
+            background-color: #00A084;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .payment-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .status-successful {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-failed {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .no-payments {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .payment-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .payment-amount {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="navbar">
+            <h1>Payment Dashboard</h1>
+            <a href="index.html" class="back-link">← Back to Payment</a>
+        </nav>
+        
+        <div class="stats-card">
+            <h3>Payment Statistics</h3>
+            <div id="stats-content">
+                <div class="stat-item">
+                    <span class="stat-label">Total Payments:</span>
+                    <span class="stat-value" id="totalPayments">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Successful Payments:</span>
+                    <span class="stat-value" id="successfulPayments">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Failed Payments:</span>
+                    <span class="stat-value" id="failedPayments">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Amount (RWF):</span>
+                    <span class="stat-value" id="totalAmount">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="payments-container">
+            <h3>Recent Payments</h3>
+            <div id="paymentsList">
+                <div class="no-payments">No payments found</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard JavaScript functionality
+        function loadDashboard() {
+            const payments = JSON.parse(localStorage.getItem('payments')) || [];
+            
+            // Update statistics
+            const totalPayments = payments.length;
+            const successfulPayments = payments.filter(p => p.status === 'successful').length;
+            const failedPayments = payments.filter(p => p.status === 'failed').length;
+            const totalAmount = payments
+                .filter(p => p.status === 'successful')
+                .reduce((sum, p) => sum + p.amount, 0);
+            
+            document.getElementById('totalPayments').textContent = totalPayments;
+            document.getElementById('successfulPayments').textContent = successfulPayments;
+            document.getElementById('failedPayments').textContent = failedPayments;
+            document.getElementById('totalAmount').textContent = totalAmount.toLocaleString();
+            
+            // Display payments list
+            const paymentsList = document.getElementById('paymentsList');
+            
+            if (payments.length === 0) {
+                paymentsList.innerHTML = '<div class="no-payments">No payments found</div>';
+                return;
+            }
+            
+            // Sort payments by most recent first
+            payments.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+            
+            paymentsList.innerHTML = payments.map(payment => `
+                <div class="payment-entry">
+                    <div class="payment-header">
+                        <div class="payment-name">${payment.name}</div>
+                        <div class="payment-amount">RWF ${payment.amount.toLocaleString()}</div>
+                    </div>
+                    <div class="payment-details">
+                        <div><strong>Email:</strong> ${payment.email}</div>
+                        <div><strong>Phone:</strong> ${payment.phone}</div>
+                        <div><strong>Reference:</strong> ${payment.txRef}</div>
+                        <div><strong>Status:</strong> 
+                            <span class="status-${payment.status}">${payment.status.toUpperCase()}</span>
+                        </div>
+                        ${payment.api_used ? `<div><strong>API Used:</strong> ${payment.api_used}</div>` : ''}
+                        ${payment.transaction_id ? `<div><strong>Transaction ID:</strong> ${payment.transaction_id}</div>` : ''}
+                        ${payment.flw_ref ? `<div><strong>Flutterwave Ref:</strong> ${payment.flw_ref}</div>` : ''}
+                        ${payment.payment_method ? `<div><strong>Payment Method:</strong> ${payment.payment_method}</div>` : ''}
+                        ${payment.charged_amount ? `<div><strong>Amount Charged:</strong> ${payment.currency} ${payment.charged_amount}</div>` : ''}
+                        ${payment.app_fee ? `<div><strong>App Fee:</strong> ${payment.app_fee}</div>` : ''}
+                        ${payment.timestamp ? `<div><strong>Timestamp:</strong> ${new Date(payment.timestamp).toLocaleString()}</div>` : ''}
+                        ${payment.failure_reason ? `<div><strong>Failure Reason:</strong> ${payment.failure_reason}</div>` : ''}
+                        ${payment.cancellation_reason ? `<div><strong>Cancellation:</strong> ${payment.cancellation_reason}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load dashboard when page loads
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+        
+        // Refresh dashboard every 5 seconds to show new payments
+        setInterval(loadDashboard, 5000);
+    </script>
+</body>
+</html>

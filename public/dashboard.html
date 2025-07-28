@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .stats-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .stats-card h3 {
+            color: #00A084;
+            margin-bottom: 15px;
+        }
+        
+        .stats-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .stats-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .payments-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payments-container h3 {
+            color: #00A084;
+            margin-bottom: 15px;
+        }
+        
+        #paymentList {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .payment-entry {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .entry-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00A084;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <a href="/" class="back-link">← Back to Payment Form</a>
+        
+        <h1>Payment Dashboard</h1>
+        
+        <div id="stats">
+            <div class="stats-card">
+                <h3>Loading Statistics...</h3>
+                <div class="loading">Please wait while we load your payment statistics...</div>
+            </div>
+        </div>
+        
+        <div class="payments-container">
+            <h3>Recent Payments</h3>
+            <ul id="paymentList">
+                <li class="loading">Loading payment history...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
