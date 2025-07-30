@@ -5,7 +5,7 @@ const path = require('path');
 const Database = require('./database');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Initialize database
 const db = new Database();

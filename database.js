@@ -3,8 +3,9 @@ const path = require('path');
 
 class Database {
     constructor() {
-        // Create database file in the project directory
-        this.db = new sqlite3.Database(path.join(__dirname, 'payments.db'));
+        // Create database file in the data directory
+        const dbPath = process.env.DB_PATH || path.join(__dirname, 'payments.db');
+        this.db = new sqlite3.Database(dbPath);
         this.init();
     }
 
