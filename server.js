@@ -15,6 +15,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+// Add custom header to identify server instance
+app.use((req, res, next) => {
+    res.setHeader('X-Served-By', `Server-${PORT}`);
+    next();
+});
+
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
