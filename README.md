@@ -388,36 +388,6 @@ If I were to continue developing this project, I would consider:
 5. **Multi-currency Support**: Support for different currencies and exchange rates
 6. **Advanced Security**: Two-factor authentication and fraud detection
 
-## Demo Video Script
-
-For the 2-minute demo video, I will cover:
-
-1. **Local Development** (30 seconds)
-   - Starting the application locally
-   - Demonstrating the payment form
-   - Showing form validation
-
-2. **Payment Processing** (45 seconds)
-   - Filling out payment form
-   - Initiating Flutterwave payment
-   - Showing success/failure scenarios
-   - Demonstrating dashboard features
-
-3. **Deployment and Load Balancing** (45 seconds)
-   - Accessing application through load balancer
-   - Testing round-robin distribution
-   - Showing X-Served-By headers
-   - Demonstrating high availability
-
-## Credits and Acknowledgments
-
-- **Flutterwave**: For providing the payment processing API and comprehensive documentation
-- **Node.js Community**: For the excellent ecosystem and documentation
-- **Express.js Team**: For the robust web framework
-- **SQLite Team**: For the lightweight database solution
-- **Docker Community**: For containerization tools and best practices
-- **HAProxy Team**: For the reliable load balancing solution
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
