@@ -1,6 +1,13 @@
 # Simple Payment Platform Dockerfile
 FROM node:18-slim
 
+# Install build dependencies for sqlite3
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /app
 
@@ -8,7 +15,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy application files
 COPY . .

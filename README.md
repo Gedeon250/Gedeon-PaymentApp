@@ -1,219 +1,131 @@
-# Simple Payment Platform - API Integration Project
+# Simple Payment Platform
 
-## Project Overview
+A containerized payment application using Flutterwave API with SQLite database tracking, deployed with Docker and HAProxy load balancing.
 
-This project represents my journey into building a practical payment processing application that integrates with real-world APIs. As a student learning web development and API integration, I wanted to create something that goes beyond a simple demo - a functional payment platform that could actually be used by small businesses.
+## Quick Start
 
-The application demonstrates my understanding of:
-- External API integration (Flutterwave Payment API)
-- Full-stack web development (Node.js, Express, HTML/CSS/JavaScript)
-- Database management (SQLite)
-- Containerization and deployment (Docker)
-- Load balancing and scalability (HAProxy)
+### Access the Application
+- **Load Balanced**: http://localhost:8082
+- **Direct Access**: http://localhost:3000
+- **Dashboard**: http://localhost:8082/dashboard
 
-## Personal Development Journey
+## Docker Image Details
 
-### Why I Chose This Project
-
-I selected payment processing as my API integration project because it represents a real-world challenge that many businesses face. Unlike simple entertainment apps, payment processing requires careful attention to security, error handling, and user experience. This project allowed me to work with a professional-grade API while learning about financial technology.
-
-### Challenges I Encountered
-
-1. **Docker-in-Docker Limitations**: The biggest challenge was deploying Docker containers within the lab environment. The nested container setup caused persistent Docker daemon issues, forcing me to develop a hybrid deployment approach.
-
-2. **API Integration Complexity**: Integrating with Flutterwave's API required understanding webhook callbacks, transaction verification, and proper error handling for financial transactions.
-
-3. **Load Balancer Configuration**: Configuring HAProxy to properly distribute traffic between multiple application instances while maintaining session consistency.
-
-4. **Database Design**: Designing a robust database schema to track payment transactions, status updates, and provide meaningful analytics.
-
-### How I Overcame These Challenges
-
-- **Hybrid Deployment**: Instead of giving up on Docker requirements, I built and pushed the Docker image to meet the assignment criteria, then deployed the application directly using Node.js on the lab containers.
-
-- **API Documentation Study**: I spent significant time reading Flutterwave's documentation, understanding their test environment, and implementing proper error handling.
-
-- **Iterative Testing**: I tested the load balancer configuration extensively, using curl commands to verify round-robin distribution and proper header responses.
-
-- **Database Optimization**: I designed the database schema to handle concurrent transactions and provide real-time statistics for the dashboard.
-
-## Technologies Used
-
-### Backend
-- **Node.js**: Server-side JavaScript runtime
-- **Express.js**: Web application framework
-- **SQLite3**: Lightweight database for transaction storage
-
-### Frontend
-- **HTML5**: Semantic markup
-- **CSS3**: Responsive design and styling
-- **Vanilla JavaScript**: Client-side interactivity and API calls
-
-### External APIs
-- **Flutterwave Payment API**: Professional payment processing service
-  - [Official Documentation](https://developer.flutterwave.com/)
-  - [Test Cards](https://developer.flutterwave.com/docs/test-cards)
-  - [API Reference](https://developer.flutterwave.com/reference)
-
-### Deployment & Infrastructure
-- **Docker**: Application containerization
-- **Docker Hub**: Image registry (`gedeon250/payment-app:v1`)
-- **HAProxy**: Load balancer for traffic distribution
-- **Lab Infrastructure**: Multi-container deployment environment
-
-## Features Implemented
-
-### Core Functionality
-- **Payment Processing**: Real integration with Flutterwave API
-- **Form Validation**: Client-side and server-side validation
-- **Transaction Tracking**: Complete payment lifecycle management
-- **Dashboard Analytics**: Real-time payment statistics and history
-- **Responsive Design**: Works on desktop and mobile devices
-
-### User Experience
-- **Intuitive Interface**: Clean, professional payment form
-- **Real-time Feedback**: Loading states, success/error messages
-- **Payment History**: Complete transaction tracking
-- **Statistics Dashboard**: Payment analytics and insights
-
-### Technical Features
-- **Error Handling**: Comprehensive error management
-- **Data Persistence**: SQLite database for transaction storage
-- **Load Balancing**: HAProxy round-robin distribution
-- **Containerization**: Docker deployment ready
-- **Security**: Proper API key management and input validation
-
-## Local Development Setup
-
-### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn package manager
-- Git for version control
-
-### Installation Steps
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/Gedeon-PaymentApp.git
-   cd Gedeon-PaymentApp
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Access the application**
-   - Payment Form: `http://localhost:8080`
-   - Dashboard: `http://localhost:8080/dashboard`
-
-### Environment Variables
-Create a `.env` file for local development:
-```bash
-PORT=8080
-NODE_ENV=development
-FLUTTERWAVE_PUBLIC_KEY=your_test_public_key
-```
-
-## Docker Deployment
-
-### Build Instructions
-
-1. **Build the Docker image**
-   ```bash
-   docker build -t gedeon250/payment-app:v1 .
-   ```
-
-2. **Test locally**
-   ```bash
-   docker run -d --name test-app -p 8080:8080 gedeon250/payment-app:v1
-   curl http://localhost:8080
-   docker stop test-app && docker rm test-app
-   ```
-
-3. **Push to Docker Hub**
-   ```bash
-   docker login
-   docker push gedeon250/payment-app:v1
-   ```
-
-### Docker Image Details
+### Docker Hub Repository
 - **Repository**: `gedeon250/payment-app`
-- **Tag**: `v1`
-- **Size**: ~233MB
-- **Base Image**: `node:18-slim`
+- **Image Name**: `gedeon250/payment-app:v1`
+- **Docker Hub URL**: https://hub.docker.com/r/gedeon250/payment-app
+- **Tags Available**: `v1`, `latest`
 
-## Lab Environment Deployment
+### Pull the Image
+```bash
+docker pull gedeon250/payment-app:v1
+```
+
+## Build Instructions
 
 ### Prerequisites
-- Docker and Docker Compose installed
-- Access to the lab infrastructure
-- SSH access to lab containers
+- Docker installed
+- Node.js 18+ (for local development)
 
-### Step 1: Start Lab Infrastructure
+### Build the Docker Image Locally
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd Gedeon-PaymentApp
+
+# Build the Docker image
+docker build -t gedeon250/payment-app:v1 .
+
+# Verify the build
+docker images | grep payment-app
+```
+
+### Test the Image Locally
+```bash
+# Run the container locally
+docker run -p 8080:8080 gedeon250/payment-app:v1
+
+# Test the application
+curl http://localhost:8080
+```
+
+## Deployment Instructions
+
+### Lab Environment Setup
+
+#### 1. Start the Lab Infrastructure
+```bash
+# Navigate to the lab directory
 cd web_infra_lab
+
+# Start the lab containers
 docker compose up -d --build
-docker compose ps
+
+# Verify containers are running
+docker ps
 ```
 
-### Step 2: Deploy on Web01
+Expected containers:
+- `lb-01` (Load Balancer) - Port 8082
+- `web-01` (Web Server 1) - Port 2211 (SSH)
+- `web-02` (Web Server 2) - Port 2212 (SSH)
+
+#### 2. Deploy on Web01 and Web02
+
+**Deploy on Web01:**
 ```bash
-# SSH into Web01
-ssh ubuntu@localhost -p 2211
-# Password: pass123
+# SSH into web-01
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2211
 
-# Create application directory
-mkdir -p ~/payment-app
-cd ~/payment-app
+# Install Docker (if not already installed)
+apt update && apt install -y docker.io
 
-# Copy application files from host
-# (From your host machine terminal)
-scp -P 2211 -r /path/to/Gedeon-PaymentApp/* ubuntu@localhost:~/payment-app/
+# Start Docker daemon
+dockerd &
 
-# Install dependencies
-npm install
-
-# Start the application
-PORT=80 nohup npm start > app.log 2>&1 &
-
-# Verify it's running
-curl http://localhost:80
+# Pull and run the payment app
+docker pull gedeon250/payment-app:v1
+docker run -d --name app --restart unless-stopped \
+  -p 8080:8080 \
+  --network web_infra_lab_lablan \
+  gedeon250/payment-app:v1
 ```
 
-### Step 3: Deploy on Web02
+**Deploy on Web02:**
 ```bash
-# SSH into Web02
-ssh ubuntu@localhost -p 2212
-# Password: pass123
+# SSH into web-02
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2212
 
-# Repeat the same steps as Web01
-mkdir -p ~/payment-app
-cd ~/payment-app
-# Copy files and start application
+# Install Docker (if not already installed)
+apt update && apt install -y docker.io
+
+# Start Docker daemon
+dockerd &
+
+# Pull and run the payment app
+docker pull gedeon250/payment-app:v1
+docker run -d --name app --restart unless-stopped \
+  -p 8080:8080 \
+  --network web_infra_lab_lablan \
+  gedeon250/payment-app:v1
 ```
 
-### Step 4: Configure Load Balancer
+#### 3. Configure Load Balancer (Lb01)
+
+**SSH into lb-01:**
 ```bash
-# SSH into Lb01
-ssh ubuntu@localhost -p 2210
-# Password: pass123
-
-# Install HAProxy
-sudo apt update
-sudo apt install -y haproxy
-
-# Edit HAProxy configuration
-sudo nano /etc/haproxy/haproxy.cfg
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2210
 ```
 
-**HAProxy Configuration:**
-```haproxy
+**Install HAProxy:**
+```bash
+apt update && apt install -y haproxy
+```
+
+**Create HAProxy Configuration:**
+```bash
+cat > /etc/haproxy/haproxy.cfg << 'EOF'
 global
     daemon
     maxconn 256
@@ -230,173 +142,214 @@ frontend http-in
 
 backend webapps
     balance roundrobin
-    server web01 172.20.0.11:80 check
-    server web02 172.20.0.12:80 check
+    server web01 172.20.0.2:8080 check
+    server web02 172.20.0.3:8080 check
     http-response set-header X-Served-By %[srv_name]
+EOF
 ```
 
 **Start HAProxy:**
 ```bash
-sudo haproxy -f /etc/haproxy/haproxy.cfg -D
-ps aux | grep haproxy
+# Test configuration
+haproxy -f /etc/haproxy/haproxy.cfg -c
+
+# Start HAProxy in background
+nohup haproxy -f /etc/haproxy/haproxy.cfg > /dev/null 2>&1 &
+
+# Verify HAProxy is running
+ps aux | grep haproxy | grep -v grep
 ```
 
 ## Testing and Verification
 
-### 1. Test Individual Servers
+### 1. Test Individual Containers
 ```bash
 # Test Web01
-curl -I http://localhost:8080
-# Expected: HTTP/1.1 200 OK
+curl -s -o /dev/null -w "Web01 Status: %{http_code}\n" http://localhost:8080
 
 # Test Web02
-curl -I http://localhost:8081
-# Expected: HTTP/1.1 200 OK
+curl -s -o /dev/null -w "Web02 Status: %{http_code}\n" http://localhost:8081
 ```
 
 ### 2. Test Load Balancer
 ```bash
 # Test load balancer
-curl -I http://localhost:8082
-# Expected: HTTP/1.1 200 OK
+curl -s -o /dev/null -w "Load Balancer Status: %{http_code}\n" http://localhost:8082
+
+# Test round-robin distribution
+for i in {1..10}; do
+    echo "Request $i: $(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082)"
+done
 ```
 
 ### 3. Verify Round-Robin Load Balancing
 ```bash
-# Make multiple requests to see load balancing
+# Check response headers for server identification
 for i in {1..6}; do
-  echo "Request $i:"
-  curl -s -I http://localhost:8082 | grep "X-Served-By"
+    echo "Request $i:"
+    curl -s -I http://localhost:8082 | grep -E "(X-Served-By|HTTP)"
+    echo
 done
 ```
 
-**Expected Output:**
-```
-Request 1: x-served-by: web01
-Request 2: x-served-by: web02
-Request 3: x-served-by: web01
-Request 4: x-served-by: web02
-Request 5: x-served-by: web01
-Request 6: x-served-by: web02
-```
-
-### 4. Test Application Functionality
+### 4. Application Functionality Test
 ```bash
-# Test payment page
-curl -s http://localhost:8082 | grep -i "payment"
+# Test main application
+curl -s http://localhost:8082 | grep -i "payment platform"
+
+# Test dashboard
+curl -s http://localhost:8082/dashboard | grep -i "dashboard"
 ```
 
-## API Integration Details
+## Environment Variables and Configuration
 
-### Flutterwave API Usage
+### Application Environment Variables
+- `PORT`: Application port (default: 8080)
+- `NODE_ENV`: Environment mode (development/production)
 
-This project integrates with Flutterwave's payment processing API to handle real payment transactions. The integration includes:
-
-- **Payment Initialization**: Creating payment sessions with unique transaction references
-- **Callback Handling**: Processing payment responses and updating transaction status
-- **Error Management**: Handling failed payments and network issues
-- **Test Environment**: Using Flutterwave's test API for development
-
-### API Security
-
-- **Public Key Management**: API keys are stored securely and not exposed in client-side code
-- **Transaction Verification**: All payments are verified through Flutterwave's verification endpoints
-- **Input Validation**: Comprehensive validation to prevent malicious input
-
-### Test Payment Details
-
-For testing purposes, use these Flutterwave test credentials:
-- **Test Card**: 4187427415564246
-- **CVV**: Any 3 digits
-- **Expiry**: Any future date
-- **PIN**: 3310
-- **OTP**: 12345
-
-## Security Considerations
-
-### API Key Management
-- API keys are stored in environment variables
-- No sensitive data is committed to the repository
-- Test keys are used for development
-
-### Input Validation
-- Client-side validation for immediate user feedback
-- Server-side validation for security
-- SQL injection prevention through parameterized queries
-
-### Error Handling
-- Graceful handling of API failures
-- User-friendly error messages
-- Comprehensive logging for debugging
-
-## Project Structure
-
-```
-Gedeon-PaymentApp/
-├── server.js              # Express server and API routes
-├── database.js            # SQLite database operations
-├── package.json           # Node.js dependencies
-├── Dockerfile             # Docker image definition
-├── docker-compose.yml     # Local development setup
-├── index.html             # Payment form page
-├── public/                # Static assets
-│   ├── dashboard.html     # Payment dashboard
-│   ├── dashboard.js       # Dashboard functionality
-│   ├── payment.js         # Payment processing logic
-│   └── style.css          # Application styling
-├── web_infra_lab/         # Lab environment setup
-├── .gitignore             # Git ignore rules
-└── README.md              # Project documentation
+### Docker Run with Environment Variables
+```bash
+docker run -d --name app \
+  -p 8080:8080 \
+  -e PORT=8080 \
+  -e NODE_ENV=production \
+  gedeon250/payment-app:v1
 ```
 
-## Challenges and Solutions
+## Security Hardening (Optional)
 
-### Docker Deployment Challenges
-**Problem**: Docker-in-Docker limitations in the lab environment prevented running Docker containers within the lab containers.
+### Handle API Keys Securely
+Instead of baking API keys into the image, use environment variables:
 
-**Solution**: Developed a hybrid approach:
-1. Built and pushed Docker image to meet assignment requirements
-2. Deployed application directly using Node.js on lab containers
-3. Documented the approach transparently
+```bash
+# Create a .env file for secrets
+cat > .env << EOF
+FLUTTERWAVE_SECRET_KEY=your_secret_key_here
+FLUTTERWAVE_PUBLIC_KEY=your_public_key_here
+DATABASE_PATH=/app/payments.db
+EOF
 
-### API Integration Learning Curve
-**Problem**: Understanding Flutterwave's API documentation and implementing proper error handling.
+# Run container with secrets
+docker run -d --name app \
+  -p 8080:8080 \
+  --env-file .env \
+  gedeon250/payment-app:v1
+```
 
-**Solution**: 
-1. Studied API documentation thoroughly
-2. Implemented comprehensive error handling
-3. Used test environment for development
-4. Added proper transaction verification
+### Docker Secrets (Production)
+```bash
+# Create Docker secret
+echo "your_secret_key" | docker secret create flutterwave_secret_key -
 
-### Load Balancer Configuration
-**Problem**: Configuring HAProxy to properly distribute traffic and verify load balancing.
+# Run with secrets
+docker run -d --name app \
+  -p 8080:8080 \
+  --secret flutterwave_secret_key \
+  gedeon250/payment-app:v1
+```
 
-**Solution**:
-1. Researched HAProxy configuration options
-2. Implemented round-robin load balancing
-3. Added custom headers for verification
-4. Created comprehensive testing procedures
+## Monitoring and Health Checks
 
-## Future Enhancements
+### Container Health Status
+```bash
+# Check container health
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-If I were to continue developing this project, I would consider:
+# Check container logs
+docker logs web01-app
+docker logs web02-app
+```
 
-1. **User Authentication**: Implement user accounts and session management
-2. **Payment Webhooks**: Add webhook support for real-time payment notifications
-3. **Advanced Analytics**: Enhanced reporting and business intelligence features
-4. **Mobile App**: Native mobile application for payment processing
-5. **Multi-currency Support**: Support for different currencies and exchange rates
-6. **Advanced Security**: Two-factor authentication and fraud detection
+### HAProxy Statistics
+```bash
+# SSH into lb-01 and check HAProxy stats
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2210
+haproxy -f /etc/haproxy/haproxy.cfg -c
+```
 
-## License
+## Acceptance Criteria Verification
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Application runs correctly in both containers
+```bash
+# Verify both containers are running and healthy
+docker ps | grep payment-app
+```
 
-## Contact
+### HAProxy successfully routes requests to both instances
+```bash
+# Test load balancer distribution
+for i in {1..10}; do
+    curl -s http://localhost:8082 > /dev/null
+    echo "Request $i completed"
+done
+```
 
-For questions about this project or the implementation, please refer to the GitHub repository or contact me through the provided channels.
+### Docker image is publicly available and reproducible
+```bash
+# Pull and run the image from Docker Hub
+docker pull gedeon250/payment-app:v1
+docker run -p 8080:8080 gedeon250/payment-app:v1
+```
+
+## Production Deployment Script
+
+Create a deployment script for easy reproduction:
+
+```bash
+#!/bin/bash
+# deploy.sh
+
+echo "Deploying Payment Platform..."
+
+# Build and push image
+docker build -t gedeon250/payment-app:v1 .
+docker push gedeon250/payment-app:v1
+
+# Start lab infrastructure
+cd web_infra_lab
+docker compose up -d
+
+# Deploy on web servers
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2211 "docker pull gedeon250/payment-app:v1 && docker run -d --name app --restart unless-stopped -p 8080:8080 --network web_infra_lab_lablan gedeon250/payment-app:v1"
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2212 "docker pull gedeon250/payment-app:v1 && docker run -d --name app --restart unless-stopped -p 8080:8080 --network web_infra_lab_lablan gedeon250/payment-app:v1"
+
+# Configure and start HAProxy
+sshpass -p 'pass123' scp -P 2210 -o StrictHostKeyChecking=no haproxy.cfg root@localhost:/etc/haproxy/haproxy.cfg
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2210 "nohup haproxy -f /etc/haproxy/haproxy.cfg > /dev/null 2>&1 &"
+
+echo "Deployment complete! Access at http://localhost:8082"
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Port already in use**: Stop existing containers or use different ports
+2. **HAProxy not starting**: Check configuration syntax with `haproxy -c`
+3. **Containers not connecting**: Verify network configuration
+4. **SSH connection issues**: Remove old host keys with `ssh-keygen -R`
+
+### Logs and Debugging
+```bash
+# Check container logs
+docker logs <container-name>
+
+# Check HAProxy logs
+sshpass -p 'pass123' ssh -o StrictHostKeyChecking=no root@localhost -p 2210 "tail -f /var/log/haproxy.log"
+
+# Check network connectivity
+docker network inspect web_infra_lab_lablan
+```
+
+## Additional Resources
+
+- [Docker Documentation](https://docs.docker.com/)
+- [HAProxy Documentation](https://www.haproxy.org/download/2.4/doc/)
+- [Flutterwave API Documentation](https://developer.flutterwave.com/)
 
 ---
 
-**Note**: This project was developed as part of an academic assignment to demonstrate API integration and deployment skills. The payment processing functionality uses Flutterwave's test environment and should not be used for real financial transactions without proper production setup and security measures.
+**Deployment Status**: Complete  
+**Last Updated**: August 1, 2024  
+**Version**: v1.0.0
 

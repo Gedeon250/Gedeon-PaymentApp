@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 // Add custom header to identify server instance
 app.use((req, res, next) => {
-    res.setHeader('X-Served-By', `Server-${PORT}`);
+    res.setHeader('X-Served-By', `Payment-Server-${PORT}`);
     next();
 });
 
